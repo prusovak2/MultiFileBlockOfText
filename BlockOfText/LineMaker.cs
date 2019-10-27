@@ -7,6 +7,7 @@ namespace BlockOfText
 {
     public class LineMaker
     {
+        private bool HighlightSpaces;
         /// <summary>
         /// number of chars that forms one line (ARG[2])
         /// </summary>
@@ -34,8 +35,9 @@ namespace BlockOfText
         /// </summary>
         private string WordWaiting="";
 
-        public LineMaker(int width, StreamWriter output)
+        public LineMaker(int width, StreamWriter output, bool highLightSpace)
         {
+            this.HighlightSpaces = highLightSpace;
             this.WidthOfLine = width;
             this.WordsOnline = new List<string>();
             this.Output = output;
@@ -76,18 +78,18 @@ namespace BlockOfText
                 string ToPrint = PrepareLine(false); //column ends after not fitting word just read and stored in Word variable
                 //I need to print what is stored in line first
                 this.Output.WriteLine(ToPrint);
-                //Console.WriteLine(ToPrint);  //TODO: remove
+                Console.WriteLine(ToPrint);  //TODO: remove
 
                 this.WordsOnline.Clear();
                 this.TryAddWord(Word.Word); //add non fitting on new line
                 ToPrint = PrepareLine(Word.EndOfColumn);  //printing not fitting word and ending column
                 this.Output.WriteLine(ToPrint);
-                //Console.WriteLine(ToPrint);  //TODO: remove
-                if (!Word.EndOfFile)  //last line of file
+                Console.WriteLine(ToPrint);  //TODO: remove
+                if (!Word.EndOfFinalFile)  //last line of file
                 {
                     Output.WriteLine();
                  
-                    //Console.WriteLine("\\n"); //TODO: remove
+                    Console.WriteLine("\\n"); //TODO: remove
                 }
                 this.WordWaiting = ""; //not fitting word was stored in WordWaiting even though it has been just printed
             }
@@ -95,13 +97,13 @@ namespace BlockOfText
             {
                 string ToPrint = PrepareLine(Word.EndOfColumn);  //add spaces between words
                 this.Output.WriteLine(ToPrint); //add to output file
-                //Console.WriteLine(ToPrint); //TODO: remove
+                Console.WriteLine(ToPrint); //TODO: remove
               
-                if (!Word.EndOfFile)  //last line of file
+                if (!Word.EndOfFinalFile)  //last line of file
                 {
                     Output.WriteLine();
                   
-                    //Console.WriteLine("\\n"); //TODO: remove
+                    Console.WriteLine("\\n"); //TODO: remove
                 }
 
             }
@@ -111,7 +113,7 @@ namespace BlockOfText
                 string ToPrint = PrepareLine(Word.EndOfColumn);  //add spaces between words
                 this.Output.WriteLine(ToPrint); //add to output file
 
-                //Console.WriteLine(ToPrint); //TODO: remove
+                Console.WriteLine(ToPrint); //TODO: remove
             }
 
             this.WordsOnline.Clear();
@@ -145,7 +147,7 @@ namespace BlockOfText
                 for (int i = 0; i < WordsOnline.Count-1; i++)
                 {
                     line.Append(WordsOnline[i]);
-                    line.Append(" ");  //one space between words
+                    line.Append("*");  //one space between words
                 }
                 line.Append(WordsOnline[WordsOnline.Count - 1]); //last word of line, no space behind it
                 return line.ToString();
@@ -164,7 +166,7 @@ namespace BlockOfText
                     line.Append(WordsOnline[i]);
                     for (int j = 0; j < BaseSpaces+1; j++)
                     {
-                        line.Append(" ");
+                        line.Append("*");
                     }
                 }
                 //add base spaces to remaining slots
@@ -173,7 +175,7 @@ namespace BlockOfText
                     line.Append(WordsOnline[i]);
                     for (int j = 0; j < BaseSpaces; j++)
                     {
-                        line.Append(" ");
+                        line.Append("*");
                     }
                 }
                 //add last word

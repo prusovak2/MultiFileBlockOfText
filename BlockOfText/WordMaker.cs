@@ -25,7 +25,10 @@ namespace BlockOfText
         /// <summary>
         /// informs whether word ends line
         /// </summary>
-        public bool EndOfFile = false;
+        public bool EndOfFinalFile = false;
+        public bool FinalFile = false;
+
+        public bool EndOfFile;
 
         const int space = 32;
         const int newline = 10;
@@ -34,10 +37,11 @@ namespace BlockOfText
 
         private int NewlineCounter = 0;
 
-        public WordMaker(StreamReader fileToRead)
+       /* public WordMaker(StreamReader fileToRead)
         {
             this.FileToRead = fileToRead;
         }
+        */
 
         /// <summary>
         /// skips whitespaces between words, sets EndOfColumn/EndOfLine flag to true if column/line ends
@@ -55,15 +59,19 @@ namespace BlockOfText
                 input = FileToRead.Read();
             }
 
-            if (NewlineCounter >= 2 || input == -1) //check whether column ends 
+            if (NewlineCounter >= 2  /*|| input == -1 */) //check whether column ends 
             {
                 EndOfColumn = true;
             }
             if(input == -1)  //check wether file ends
             {
                 EndOfFile = true;
+                if (FinalFile)
+                {
+                    EndOfFinalFile = true;
+                }
             }
-            LastRead = input;
+            LastRead = input; 
         }
 
         /// <summary>

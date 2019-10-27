@@ -2,7 +2,7 @@
   "profiles": {
     "BlockOfText": {
       "commandName": "Project",
-      "commandLineArgs": "TestFiles\\File1.txt D:\\MFF\\ZS_2019\\c#_repos\\outputFile.txt 40 "
+      "commandLineArgs": "D:\\MFF\\ZS_2019\\c#_repos\\shortFile.txt D:\\MFF\\ZS_2019\\c#_repos\\shortFile.txt D:\\MFF\\ZS_2019\\c#_repos\\outputFile.txt 40 "
     }
   }
 }
