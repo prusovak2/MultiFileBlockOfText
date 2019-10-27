@@ -9,6 +9,8 @@ namespace BlockOfText
        
         static void Main(string[] args)
         {
+
+
             int check = OpenFile(args, out StreamReader Reader, out StreamWriter Output);
             if (check == 0) //problem with arguments or files
             {
