@@ -69,11 +69,11 @@ namespace BlockOfText
         public bool BuildLine(WordMaker Word)
         {
             bool added = TryAddWord(Word.Word);
-             if (added && !Word.EndOfColumn)
+             if (added && !Word.EndOfColumn && !Word.EndOfFinalFile)
             {
                 return false; //not finished line
             }
-            else if(!added && Word.EndOfColumn) //special case, word doesnt fit to previous line and it ends column at the same time
+            else if(!added && (Word.EndOfColumn || Word.EndOfFinalFile)) //special case, word doesnt fit to previous line and it ends column at the same time
             {
                 string ToPrint = PrepareLine(false); //column ends after not fitting word just read and stored in Word variable
                 //I need to print what is stored in line first
@@ -82,7 +82,7 @@ namespace BlockOfText
 
                 this.WordsOnline.Clear();
                 this.TryAddWord(Word.Word); //add non fitting on new line
-                ToPrint = PrepareLine(Word.EndOfColumn);  //printing not fitting word and ending column
+                ToPrint = PrepareLine(true);  //printing not fitting word and ending column
                 this.Output.WriteLine(ToPrint);
                 Console.WriteLine(ToPrint);  //TODO: remove
                 if (!Word.EndOfFinalFile)  //last line of file
@@ -93,9 +93,9 @@ namespace BlockOfText
                 }
                 this.WordWaiting = ""; //not fitting word was stored in WordWaiting even though it has been just printed
             }
-            else if (Word.EndOfColumn) //last line of Column
+            else if (Word.EndOfColumn || Word.EndOfFinalFile) //last line of Column
             {
-                string ToPrint = PrepareLine(Word.EndOfColumn);  //add spaces between words
+                string ToPrint = PrepareLine(true);  //add spaces between words
                 this.Output.WriteLine(ToPrint); //add to output file
                 Console.WriteLine(ToPrint); //TODO: remove
               
