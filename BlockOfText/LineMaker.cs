@@ -76,34 +76,30 @@ namespace BlockOfText
             else if(!added && (Word.EndOfColumn || Word.EndOfFinalFile)) //special case, word doesnt fit to previous line and it ends column at the same time
             {
                 string ToPrint = PrepareLine(false); //column ends after not fitting word just read and stored in Word variable
-                //I need to print what is stored in line first
-                this.Output.WriteLine(ToPrint);
-                Console.WriteLine(ToPrint);  //TODO: remove
-
+                                                     //I need to print what is stored in line first
+                AppendLine(ToPrint);
+               
                 this.WordsOnline.Clear();
                 this.TryAddWord(Word.Word); //add non fitting on new line
                 ToPrint = PrepareLine(true);  //printing not fitting word and ending column
-                this.Output.WriteLine(ToPrint);
-                Console.WriteLine(ToPrint);  //TODO: remove
+
+                AppendLine(ToPrint);
+
                 if (!Word.EndOfFinalFile)  //last line of file
                 {
-                    Output.WriteLine();
-                 
-                    Console.WriteLine("\\n"); //TODO: remove
+                    MakeNewLine();
                 }
                 this.WordWaiting = ""; //not fitting word was stored in WordWaiting even though it has been just printed
             }
             else if (Word.EndOfColumn || Word.EndOfFinalFile) //last line of Column
             {
                 string ToPrint = PrepareLine(true);  //add spaces between words
-                this.Output.WriteLine(ToPrint); //add to output file
-                Console.WriteLine(ToPrint); //TODO: remove
+
+                AppendLine(ToPrint);
               
                 if (!Word.EndOfFinalFile)  //last line of file
                 {
-                    Output.WriteLine();
-                  
-                    Console.WriteLine("\\n"); //TODO: remove
+                    MakeNewLine();
                 }
 
             }
@@ -111,9 +107,7 @@ namespace BlockOfText
             else //finished line
             {           
                 string ToPrint = PrepareLine(Word.EndOfColumn);  //add spaces between words
-                this.Output.WriteLine(ToPrint); //add to output file
-
-                Console.WriteLine(ToPrint); //TODO: remove
+                AppendLine(ToPrint);
             }
 
             this.WordsOnline.Clear();
@@ -126,6 +120,33 @@ namespace BlockOfText
 
         }
 
+        private void MakeNewLine()
+        {
+            if (this.HighlightSpaces)
+            {
+                Output.WriteLine("<-");
+                Console.WriteLine("<-"); //TODO: remove
+            }
+            else
+            {
+                Output.WriteLine();
+                Console.WriteLine("\\n"); //TODO: remove
+            }
+        } 
+
+        private void AppendLine(string ToPrint)
+        {
+            if (this.HighlightSpaces)
+            {
+                this.Output.WriteLine($"{ToPrint}<-");
+                Console.WriteLine($"{ToPrint}<-");  //TODO: remove
+            }
+            else
+            {
+                this.Output.WriteLine(ToPrint);
+                Console.WriteLine(ToPrint);  //TODO: remove
+            }
+        }
         /// <summary>
         /// converts this.WordsOnLine into string representation of line containing additional spaces
         /// </summary>
@@ -147,12 +168,19 @@ namespace BlockOfText
                 for (int i = 0; i < WordsOnline.Count-1; i++)
                 {
                     line.Append(WordsOnline[i]);
-                    line.Append("*");  //one space between words
+                    if (this.HighlightSpaces)
+                    {
+                        line.Append(".");
+                    }
+                    else
+                    {
+                        line.Append("*");  //one space between words
+                    }
                 }
                 line.Append(WordsOnline[WordsOnline.Count - 1]); //last word of line, no space behind it
                 return line.ToString();
             }
-            else
+            else //regular line in the middle of column
             {
                 int SpacesToAdd = this.WidthOfLine - CharsOnLine;  //amount of chars (space) to be added on line
                 int SpacesToFill = this.WordsOnline.Count - 1; //amount spaces between words
@@ -166,7 +194,15 @@ namespace BlockOfText
                     line.Append(WordsOnline[i]);
                     for (int j = 0; j < BaseSpaces+1; j++)
                     {
-                        line.Append("*");
+                        if (this.HighlightSpaces)
+                        {
+                            line.Append(".");
+                        }
+                        else 
+                        {
+                            line.Append("*");
+                        }
+                        
                     }
                 }
                 //add base spaces to remaining slots
@@ -175,7 +211,14 @@ namespace BlockOfText
                     line.Append(WordsOnline[i]);
                     for (int j = 0; j < BaseSpaces; j++)
                     {
-                        line.Append("*");
+                        if (this.HighlightSpaces)
+                        {
+                            line.Append(".");
+                        }
+                        else
+                        {
+                            line.Append("*");
+                        }
                     }
                 }
                 //add last word

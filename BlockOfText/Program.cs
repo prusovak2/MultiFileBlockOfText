@@ -17,7 +17,7 @@ namespace BlockOfText
                 return;
             }
             
-            LineMaker line = new LineMaker(WidhtOfLine, Output,HiglightSpace);
+            LineMaker line = new LineMaker(WidhtOfLine, Output, HiglightSpace);
             WordMaker word = new WordMaker();
 
             int i = 0;
