@@ -119,18 +119,29 @@ namespace BlockOfText
             return true; //line finished
 
         }
+        public void LineInEmptyFile()
+        {
+            Output.WriteLine();
+#if TRACING
+            Console.WriteLine(@"\n"); //TODO: remove
+#endif
+        }
 
         private void MakeNewLine()
         {
             if (this.HighlightSpaces)
             {
                 Output.WriteLine("<-");
+#if TRACING
                 Console.WriteLine("<-"); //TODO: remove
+#endif
             }
             else
             {
                 Output.WriteLine();
+#if TRACING
                 Console.WriteLine("\\n"); //TODO: remove
+#endif
             }
         } 
 
@@ -139,14 +150,19 @@ namespace BlockOfText
             if (this.HighlightSpaces)
             {
                 this.Output.WriteLine($"{ToPrint}<-");
+#if TRACING
                 Console.WriteLine($"{ToPrint}<-");  //TODO: remove
+#endif
             }
             else
             {
                 this.Output.WriteLine(ToPrint);
+#if TRACING
                 Console.WriteLine(ToPrint);  //TODO: remove
+#endif
             }
         }
+
         /// <summary>
         /// converts this.WordsOnLine into string representation of line containing additional spaces
         /// </summary>
@@ -174,7 +190,7 @@ namespace BlockOfText
                     }
                     else
                     {
-                        line.Append("*");  //one space between words
+                        line.Append(" ");  //one space between words
                     }
                 }
                 line.Append(WordsOnline[WordsOnline.Count - 1]); //last word of line, no space behind it
@@ -200,7 +216,7 @@ namespace BlockOfText
                         }
                         else 
                         {
-                            line.Append("*");
+                            line.Append(" ");
                         }
                         
                     }
@@ -217,7 +233,7 @@ namespace BlockOfText
                         }
                         else
                         {
-                            line.Append("*");
+                            line.Append(" ");
                         }
                     }
                 }

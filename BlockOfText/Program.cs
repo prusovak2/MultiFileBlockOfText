@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.IO;
 using System.Collections.Generic;
 
@@ -21,18 +22,30 @@ namespace BlockOfText
             WordMaker word = new WordMaker();
 
             int i = 0;
+            int flawedFiles = 0; //counter of input files that cannot be opened
             if (HiglightSpace) //is arg0 file name or --HighlightSpaces?
             {
                 i= 1;
+                flawedFiles = 1;
             }
 
-            for ( i = 0; i < args.Length-2; i++)
+
+            for (; i < args.Length-2; i++)
             {
                 if (i == (args.Length - 3))
                 {
-                    word.FinalFile = true;  //TODO: this is totally wrong
+                    word.FinalFile = true;  
                 }
-                ReadFile(args[i], word, line);
+                if(!ReadFile(args[i], word, line))
+                {
+                    flawedFiles++;
+                }
+
+                if (flawedFiles == (args.Length - 2)) // all input files are flawed
+                {
+                    line.LineInEmptyFile();
+                    line.FlushToFile();
+                }
             }
 
         }

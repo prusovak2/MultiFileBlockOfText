@@ -5,6 +5,10 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;TRACING</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Update="TestFiles\File1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
