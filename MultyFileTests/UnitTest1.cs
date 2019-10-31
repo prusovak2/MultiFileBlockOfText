@@ -57,6 +57,15 @@ namespace MultyFileTests
             bool a = Utils.FileDiff(@"Tmps\Test3x.out", @"Outs\Test3x.out");
             Assert.IsTrue(a);
         }
+        //only one char long line
+        [TestMethod]
+        public void TestMetod7()
+        {
+            Clear(@"Tmps\short3.out");
+            Run(@" Ins\short3.in Ins\short3.in Ins\short3.in Tmps\short3.out 1");
+            bool a = Utils.FileDiff(@"Tmps\short3.out", @"Outs\short3.out");
+            Assert.IsTrue(a);
+        }
 
 
         public void Run(string args)
