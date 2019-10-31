@@ -59,7 +59,7 @@ namespace BlockOfText
                 input = FileToRead.Read();
             }
 
-            if (NewlineCounter >= 2  /*|| input == -1 */) //check whether column ends 
+            if (NewlineCounter >= 2  && input != -1 ) //check whether column ends 
             {
                 EndOfColumn = true;
             }

@@ -34,6 +34,9 @@ namespace BlockOfText
         /// word that did not fit the last pritnted line and is to be added to next one
         /// </summary>
         private string WordWaiting="";
+        
+
+ 
 
         public LineMaker(int width, StreamWriter output, bool highLightSpace)
         {
@@ -167,7 +170,7 @@ namespace BlockOfText
         /// converts this.WordsOnLine into string representation of line containing additional spaces
         /// </summary>
         /// <returns>line containg correct number of spaces</returns>
-        private string PrepareLine(bool EndOfColumn)
+        internal string PrepareLine(bool EndOfColumn)
         {
             if(this.WordsOnline.Count == 1) //only one word on line
             {
@@ -275,6 +278,19 @@ namespace BlockOfText
         public void FlushToFile()
         {
             this.Output.Flush();
+        }
+        public void CloseWriter()
+        {
+            this.Output.Close();
+            this.Output.Dispose();
+        }
+        public void PushToWriter()
+        {
+            if(this.WordsOnline.Count != 0)
+            {
+                string ToPrint = PrepareLine(true);
+                AppendLine(ToPrint);
+            }
         }
 
     }

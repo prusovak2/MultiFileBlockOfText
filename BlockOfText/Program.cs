@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace BlockOfText
 {
-    class Program
+    public class Program
     {
        
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             
 
@@ -40,13 +40,18 @@ namespace BlockOfText
                 {
                     flawedFiles++;
                 }
-
-                if (flawedFiles == (args.Length - 2)) // all input files are flawed
-                {
-                    line.LineInEmptyFile();
-                    line.FlushToFile();
-                }
             }
+            if (flawedFiles == (args.Length - 2)) // all input files are flawed
+            {
+                line.LineInEmptyFile();
+                line.FlushToFile();
+            }
+            line.PushToWriter();
+            line.FlushToFile();
+
+
+
+            line.CloseWriter();
 
         }
 
